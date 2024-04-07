@@ -22,20 +22,24 @@ public class DeleteCommand extends Command{
             ui.showRemoveMessage(tasks, this.index);
             this.index = this.index - 1;
             Task.numOfTask -= 1;
-            tasks.remove(tasks.get(index));
+            try {
+                tasks.remove(tasks.get(index));
+            } catch (IndexOutOfBoundsException e) {
+                ui.indexOutOfBoundError();
+            }
             //Add storage
             //delete all texts
             try {
                 storage.FileClearer();
             } catch (IOException e) {
-                ui.showIOException();
+                ui.showClearFileError();
             }
             //rewrite the whole file
             for (Task task: tasks) {
                 try {
                     storage.FileUpdater(task.toString() + "\n");
                 } catch (IOException e) {
-                    ui.showIOException();
+                    ui.showWriteFileError();
                 }
             }
         } catch (IndexOutOfBoundsException e) {

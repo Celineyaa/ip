@@ -14,6 +14,7 @@ public class Duke {
 
     public Duke(String filePath) {
         ui = new Ui();
+        filePath = filePath + "/record.txt";
         storage = new Storage(filePath,ui);
         tasks = new TaskList();
         try {
@@ -36,8 +37,8 @@ public class Duke {
                 CommandBinding commandBinding = new CommandBinding(parser,tasks,ui,storage);
                 commandBinding.execute();
                 isExit = commandBinding.getCommand().isExit();
-            } catch (IOException e) {
-                ui.showIOException();
+            } catch (NullPointerException e) {
+                ui.inputMismatchError();
             } finally {
                 ui.showLine();
             }
@@ -48,7 +49,7 @@ public class Duke {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Please input your file path: ");
+        System.out.println("Please input the folder path you'd like to save your record file: ");
         String filePath = scanner.nextLine();
         new Duke(filePath).run();
     }

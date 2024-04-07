@@ -20,14 +20,25 @@ public class StatusCommand extends Command{
     public void execute(TaskList tasks, Ui ui, Storage storage){
         try {
             switch (keyWord) {
+                case "help":
+                    ui.help();
+                    break;
                 case "list":
                     ui.showTasks(tasks);
                     break;
                 case "mark":
-                    tasks.get(index-1).markAsDone();
+                    try {
+                        tasks.get(index - 1).markAsDone();
+                    } catch (IndexOutOfBoundsException e) {
+                        ui.indexOutOfBoundError();
+                    }
                     break;
                 case "unmark":
-                    tasks.get(index-1).markAsUndone();
+                    try {
+                        tasks.get(index - 1).markAsUndone();
+                    } catch (IndexOutOfBoundsException e) {
+                        ui.indexOutOfBoundError();
+                    }
                     break;
                 case "find":
                     TaskList findTasks = new TaskList();
@@ -46,14 +57,15 @@ public class StatusCommand extends Command{
             try {
                 storage.FileClearer();
             } catch (IOException e) {
-                ui.showIOException();
+                ui.showClearFileError();
             }
+
             //rewrite the whole file
             for (Task task: tasks) {
                 try {
                     storage.FileUpdater(task.toString() + "\n");
                 } catch (IOException e) {
-                    ui.showIOException();
+                    ui.showWriteFileError();
                 }
             }
 

@@ -20,6 +20,8 @@ public class Parser {
         this.ui = ui;
         if (userInput.equals("list")) {
             this.keyWord = "list";
+        } else if (userInput.equals("help")){
+            this.keyWord = "help";
         } else {
             String[] commandSplit = userInput.split(" ", 2);
 
@@ -62,7 +64,7 @@ public class Parser {
                     ui.emptyDescriptionError();
                     break;
                 }
-            // BYE, MARK, UNMARK, LIST,DELETE
+            // BYE, MARK, UNMARK, LIST,DELETE, HELP
             default:
                 this.from = null;
                 this.to = null;
